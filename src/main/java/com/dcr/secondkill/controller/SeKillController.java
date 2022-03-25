@@ -6,7 +6,7 @@ import com.dcr.secondkill.entity.TOrder;
 import com.dcr.secondkill.entity.TSeckillOrder;
 import com.dcr.secondkill.entity.TUser;
 import com.dcr.secondkill.exception.GlobalException;
-import com.dcr.secondkill.rabbitmq.MQSender;
+import com.dcr.secondkill.rabbitmq.MqSender;
 import com.dcr.secondkill.service.ITGoodsService;
 import com.dcr.secondkill.service.ITOrderService;
 import com.dcr.secondkill.service.ITSeckillOrderService;
@@ -60,7 +60,7 @@ public class SeKillController implements InitializingBean {
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
-    private MQSender mqSender;
+    private MqSender mqSender;
     @Autowired
     private RedisScript<Long> redisScript;
 
@@ -107,20 +107,6 @@ public class SeKillController implements InitializingBean {
         if (tuser == null) {
             return RespBean.error(RespBeanEnum.SESSION_ERROR);
         }
-//        ValueOperations valueOperations = redisTemplate.opsForValue();
-        //限制访问次数，5秒内访问5次
-//        String uri = request.getRequestURI();
-//        captcha = "0";
-//        Integer count = (Integer) valueOperations.get(uri + ":" + tuser.getId());
-//        if (count == null) {
-//            valueOperations.set(uri + ":" + tuser.getId(), 1, 5, TimeUnit.SECONDS);
-//        } else if (count < 5) {
-//            valueOperations.increment(uri + ":" + tuser.getId());
-//        } else {
-//            return RespBean.error(RespBeanEnum.ACCESS_LIMIT_REACHED);
-//        }
-
-
         boolean check = orderService.checkCaptcha(tuser, goodsId, captcha);
         if (!check) {
             return RespBean.error(RespBeanEnum.ERROR_CAPTCHA);
@@ -185,7 +171,6 @@ public class SeKillController implements InitializingBean {
             return RespBean.error(RespBeanEnum.EMPTY_STOCK);
         }
         //预减库存
-//        Long stock = valueOperations.decrement("seckillGoods:" + goodsId);
         Long stock = (Long) redisTemplate.execute(redisScript, Collections.singletonList("seckillGoods:" + goodsId), Collections.EMPTY_LIST);
         if (stock < 0) {
             EmptyStockMap.put(goodsId, true);
@@ -195,34 +180,6 @@ public class SeKillController implements InitializingBean {
         SeckillMessage seckillMessag = new SeckillMessage(user, goodsId);
         mqSender.sendSeckillMessage(JsonUtil.object2JsonStr(seckillMessag));
         return RespBean.success(0);
-
-
-
-
-
-
-
-        /*
-//        model.addAttribute("user", user);
-        GoodsVo goodsVo = itGoodsService.findGoodsVobyGoodsId(goodsId);
-        if (goodsVo.getStockCount() < 1) {
-//            model.addAttribute("errmsg", RespBeanEnum.EMPTY_STOCK.getMessage());
-            return RespBean.error(RespBeanEnum.EMPTY_STOCK);
-        }
-        //判断是否重复抢购
-//        TSeckillOrder seckillOrder = itSeckillOrderService.getOne(new QueryWrapper<TSeckillOrder>().eq("user_id", user.getId()).eq("goods_id", goodsId));
-        TSeckillOrder seckillOrder = (TSeckillOrder) redisTemplate.opsForValue().get("order:" + user.getId() + ":" + goodsVo.getId());
-        if (seckillOrder != null) {
-//            model.addAttribute("errmsg", RespBeanEnum.REPEATE_ERROR.getMessage());
-            return RespBean.error(RespBeanEnum.REPEATE_ERROR);
-        }
-        TOrder tOrder = orderService.secKill(user, goodsVo);
-//        model.addAttribute("order", tOrder);
-//        model.addAttribute("goods", goodsVo);
-        return RespBean.success(tOrder);
-
-         */
-
     }
 
     /**
@@ -267,7 +224,7 @@ public class SeKillController implements InitializingBean {
      * @date 6:29 下午 2022/3/8
      **/
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         List<GoodsVo> list = itGoodsService.findGoodsVo();
         if (CollectionUtils.isEmpty(list)) {
             return;

@@ -2,6 +2,7 @@ package com.dcr.secondkill.exception;
 
 import com.dcr.secondkill.vo.RespBean;
 import com.dcr.secondkill.vo.RespBeanEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @ClassName: GlobalExceptionHandler
  */
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
@@ -28,7 +30,7 @@ public class GlobalExceptionHandler {
             respBean.setMessage("参数校验异常：" + bindException.getBindingResult().getAllErrors().get(0).getDefaultMessage());
             return respBean;
         }
-        System.out.println("异常信息" + e);
+        log.info("异常信息" + e);
         return RespBean.error(RespBeanEnum.ERROR);
     }
 }

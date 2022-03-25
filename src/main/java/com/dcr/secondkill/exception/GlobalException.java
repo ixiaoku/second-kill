@@ -13,7 +13,7 @@ public class GlobalException extends RuntimeException {
 
     private RespBeanEnum respBeanEnum;
 
-    RespBeanEnum getRespBeanEnum() {
+    public RespBeanEnum getRespBeanEnum() {
         return respBeanEnum;
     }
 

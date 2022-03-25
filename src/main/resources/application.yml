@@ -17,9 +17,9 @@ spring:
     cache: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://124.222.95.90:3306/seckill?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: root
-    password: root
+    password: Dcr1234!
     hikari:
       pool-name: DateHikariCP
       minimum-idle: 5
@@ -31,7 +31,7 @@ spring:
       connection-test-query: SELECT 1
 
   redis:
-    host: 127.0.0.1
+    host: 124.222.95.90
     port: 6379
     database: 0
     timeout: 10000ms
@@ -47,7 +47,7 @@ spring:
 #RabbitMQ
   rabbitmq:
     #服务器
-    host: 127.0.0.1
+    host: 124.222.95.90
     #用户名
     username: guest
     #密码
@@ -80,8 +80,6 @@ spring:
         max-interval: 10000ms
         #重试的间隔乘数，比如配2。0  第一等10s 第二次等20s 第三次等40s
         multiplier: 1
-
-
 
 #mybatis-plus
 mybatis-plus:

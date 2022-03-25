@@ -24,5 +24,10 @@ public interface TGoodsMapper extends BaseMapper<TGoods> {
      **/
     List<GoodsVo> findGoodsVo();
 
+    /**
+     * 查询商品
+     * @param goodsId
+     * @return
+     */
     GoodsVo findGoodsVobyGoodsId(Long goodsId);
 }

@@ -10,6 +10,7 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 
@@ -19,6 +20,7 @@ import java.util.Collections;
  * @Date 2022/03/07
  */
 @Configuration
+@EnableSwagger2
 public class SwaggerConfig {
 
     @Bean

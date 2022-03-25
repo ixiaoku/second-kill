@@ -57,10 +57,8 @@ public class GoodsController {
         if (!StringUtils.isEmpty(html)) {
             return html;
         }
-
         model.addAttribute("user", user);
         model.addAttribute("goodsList", itGoodsService.findGoodsVo());
-
         WebContext webContext = new WebContext(request, response, request.getServletContext(), request.getLocale(), model.asMap());
         html = thymeleafViewResolver.getTemplateEngine().process("goodsList", webContext);
         if (!StringUtils.isEmpty(html)) {

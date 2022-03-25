@@ -1,7 +1,7 @@
 package com.dcr.secondkill.controller;
 
 import com.dcr.secondkill.entity.TUser;
-import com.dcr.secondkill.rabbitmq.MQSender;
+import com.dcr.secondkill.rabbitmq.MqSender;
 import com.dcr.secondkill.service.ITUserService;
 import com.dcr.secondkill.vo.RespBean;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,7 +33,7 @@ public class TUserController {
     @Autowired
     private ITUserService tUserService;
     @Autowired
-    private MQSender mqSender;
+    private MqSender mqSender;
 
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     @ResponseBody
@@ -48,23 +48,23 @@ public class TUserController {
     public void CreateUser() throws IOException {
         List<TUser> list = new ArrayList<>();
         //生成用户
-//        for (int i = 0; i < 100; i++) {
-//            TUser tUser = new TUser();
-//            tUser.setId(1233L + i);
-//            tUser.setNickname("user" + i);
-//            tUser.setSalt("1a2b3c");
-//            tUser.setPassword("05314c6fbe1d0cdb5eab4e80f1bda30a");
-//            list.add(tUser);
-//        }
-//        tUserService.saveBatch(list);
-//        System.out.println("create user");
+        /*for (int i = 0; i < 100; i++) {
+            TUser tUser = new TUser();
+            tUser.setId(1233L + i);
+            tUser.setNickname("user" + i);
+            tUser.setSalt("1a2b3c");
+            tUser.setPassword("05314c6fbe1d0cdb5eab4e80f1bda30a");
+            list.add(tUser);
+        }
+        tUserService.saveBatch(list);
+        System.out.println("create user");*/
 
         //读取用户
         list = tUserService.list();
 
         //登录，生成UserTicket
         String urlString = "http://localhost:8080/login/doLogin";
-        File file = new File("/Users/lichao/Downloads/config.txt");
+        File file = new File("D:\\project\\github\\second-kill\\src\\main\\resources\\config.txt");
         if (file.exists()) {
             file.delete();
         }

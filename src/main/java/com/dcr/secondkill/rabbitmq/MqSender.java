@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class MQSender {
+public class MqSender {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;

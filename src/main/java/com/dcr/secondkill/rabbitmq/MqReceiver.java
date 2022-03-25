@@ -18,19 +18,18 @@ import org.springframework.stereotype.Service;
  *
  * @author: LC
  * @date 2022/3/7 7:44 下午
- * @ClassName: MQReceiver
+ * @ClassName: MqReceiver
  */
 @Service
 @Slf4j
-public class MQReceiver {
+public class MqReceiver {
 
     @Autowired
-    private ITGoodsService itGoodsServicel;
+    private ITGoodsService itGoodsService;
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
     private ITOrderService itOrderService;
-
 
     /**
      * 下单操作
@@ -42,7 +41,7 @@ public class MQReceiver {
         SeckillMessage seckillMessage = JsonUtil.jsonStr2Object(message, SeckillMessage.class);
         Long goodsId = seckillMessage.getGoodsId();
         TUser user = seckillMessage.getTUser();
-        GoodsVo goodsVo = itGoodsServicel.findGoodsVobyGoodsId(goodsId);
+        GoodsVo goodsVo = itGoodsService.findGoodsVobyGoodsId(goodsId);
         if (goodsVo.getStockCount() < 1) {
             return;
         }
@@ -53,7 +52,5 @@ public class MQReceiver {
         }
         //下单操作
         itOrderService.secKill(user, goodsVo);
-
     }
-
 }

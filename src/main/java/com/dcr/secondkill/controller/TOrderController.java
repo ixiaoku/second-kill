@@ -27,7 +27,6 @@ public class TOrderController {
     @Autowired
     private ITOrderService itOrderService;
 
-
     @ApiOperation("订单")
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     @ResponseBody
